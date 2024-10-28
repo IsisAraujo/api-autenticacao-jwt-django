@@ -1,0 +1,13 @@
+.vscode/
+.venv/
+
+__pycache__/
+
+
+content/media/
+env/
+tmp/
+
+db.sqlite3
+.env.development
+.env.production
