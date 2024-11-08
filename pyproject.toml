@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "base-user"
+version = "1.0"
+description = "Descrição do seu projeto"
+authors = ["Isis Araujo <isis.araujo@outlook.com>"]
+packages = [{include = "core"}]
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+Django = "5.1.2"
+djangorestframework = "3.15.2"
+djangorestframework-simplejwt = "5.3.1"
+django-cors-headers = "4.5.0"
+django-phonenumber-field = "8.0.0"
+drf-yasg = "1.21.8"
+pillow = "11.0.0"
+psycopg2-binary = "2.9.10"
+python-dotenv = "1.0.1"
+phonenumbers = "8.13.47"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0"
+black = "^23.0"
+flake8 = "^6.0"
+pre-commit = "^4.0.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

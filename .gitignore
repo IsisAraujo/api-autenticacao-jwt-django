@@ -3,11 +3,9 @@
 
 __pycache__/
 
-
+mysql_data
 content/media/
 env/
 tmp/
 
 db.sqlite3
-.env.development
-.env.production

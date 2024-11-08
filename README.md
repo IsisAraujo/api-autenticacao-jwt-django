@@ -30,7 +30,7 @@ Certifique-se de ter os seguintes pré-requisitos instalados:
 1. **Clone o repositório:**
 
     ```bash
-    
+    git clone <seu-repositorio>
     ```
 
 2. **Navegue até o diretório do projeto:**
@@ -39,20 +39,37 @@ Certifique-se de ter os seguintes pré-requisitos instalados:
     cd base_user
     ```
 
-3. **Instale as dependências necessárias:**
+3. **Com Docker (Recomendado):**
 
     ```bash
-    pip install -r requirements.txt
+    docker-compose up --build
     ```
 
-4. **Aplique as migrações:**
+    A API estará disponível em `http://localhost:8000/api/contas/`
 
+4. **Sem Docker (Desenvolvimento local):**
+
+    Certifique-se de ter o Poetry instalado:
+    ```bash
+    curl -sSL https://install.python-poetry.org | python3 -
+    ```
+
+    Instale as dependências:
+    ```bash
+    poetry install
+    ```
+
+    Ative o ambiente virtual:
+    ```bash
+    poetry shell
+    ```
+
+    Aplique as migrações:
     ```bash
     python manage.py migrate
     ```
 
-5. **Execute o servidor de desenvolvimento:**
-
+    Execute o servidor de desenvolvimento:
     ```bash
     python manage.py runserver
     ```

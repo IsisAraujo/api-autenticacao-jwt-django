@@ -1,44 +1,66 @@
-version: '3'
 services:
-  db:
-    image: mysql:5.7
-    container_name: base_user_bd
-    restart: always
-    volumes:
-      - data:/var/lib/mysql
-    env_file:
-      - .env.development
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+  # Servidor de email para desenvolvimento
+  mail:
+    image: mailhog/mailhog
     ports:
-      - "3306:3306"
-  
-  backend:
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    container_name: base_user
-    command: >
-      sh -c "python manage.py migrate &&
-             python manage.py collectstatic --noinput &&
-             python manage.py runserver 0.0.0.0:8000"
-    volumes:
-      - .:/app
-    ports:
-      - "8000:8000"
-    env_file:
-      - .env.development
-    depends_on:
-      - db
-    environment:
-      - DATABASE_HOST=db
-      - DATABASE_PORT=3306
-      - DATABASE_NAME=${MYSQL_DATABASE}
-      - DATABASE_USER=${MYSQL_USER}
-      - DATABASE_PASSWORD=${MYSQL_PASSWORD}
+      - 8025:8025  # Interface web
+      - 1025:1025  # Porta SMTP
+    restart: unless-stopped
 
+  # Banco de dados PostgreSQL
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=bd-dev
+    ports:
+      - 5432:5432  # Porta padrão PostgreSQL
+    volumes:
+      - db-data:/var/lib/postgresql/data  # Volume persistente
+    healthcheck:  # Verifica se o banco está pronto
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  # Aplicação Django
+  api:
+    build: .  # Usa o Dockerfile local
+    restart: unless-stopped
+    command: >  # Comandos de inicialização
+      bash -c "python manage.py makemigrations &&
+               python manage.py migrate &&
+               python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code  # Monta código local para desenvolvimento
+    ports:
+      - "8001:8000"  # Porta da API
+    environment:  # Variáveis para conexão com banco
+      - POSTGRES_DB=bd-dev
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+    depends_on:  # Aguarda banco estar saudável
+      db:
+        condition: service_healthy
+    healthcheck:  # Verifica saúde da API
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - app-network
+
+# Configuração de rede isolada
+networks:
+  app-network:
+    driver: bridge
+
+# Volumes persistentes
 volumes:
-  data:
+  db-data:  # Armazena dados do PostgreSQL

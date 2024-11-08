@@ -1,0 +1,35 @@
+# .pre-commit-config.yaml
+exclude: ".*migrations\/.*"
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  # Black para formatação automática em Python
+  - repo: https://github.com/psf/black
+    rev: 22.12.0
+    hooks:
+      - id: black
+        language_version: python
+
+  # Ruff para linting completo
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: "v0.0.178"
+    hooks:
+      - id: ruff
+        args: [
+          "--select=E,F,I,N,B,A,C,UP,W",  # Removido PL das regras
+          "--fix",
+          "--ignore=E501",  # Ignora linha muito longa (black cuida disso)
+        ]
+
+  # DjLint para lint e formatação em arquivos Django
+  - repo: https://github.com/Riverside-Healthcare/djLint
+    rev: v1.34.1
+    hooks:
+      - id: djlint
+        args: ["--indent", "2"]

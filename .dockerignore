@@ -1,2 +1,10 @@
-.env.development
-.env.production
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.git/
+.gitignore
