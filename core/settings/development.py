@@ -171,3 +171,17 @@ LOGGING = {
         "level": "INFO",
     },
 }
+
+# =========================================
+# DATABASE
+# =========================================
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "bd-dev",
+        "USER": "postgres",
+        "PASSWORD": "123456",
+        "HOST": "localhost",
+        "PORT": "5433",
+    }
+}

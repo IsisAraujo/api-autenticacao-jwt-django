@@ -6,12 +6,12 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext as _
 
-from apps.contas.models import PerfilUsuario
-
 
 class AtivacaoConta(models.Model):
     usuario = models.OneToOneField(
-        PerfilUsuario, on_delete=models.CASCADE, related_name="confirmacao_email"
+        "contas.PerfilUsuario",
+        on_delete=models.CASCADE,
+        related_name="confirmacao_email",
     )
     codigo_ativacao = models.CharField(
         max_length=6, null=True, blank=True, verbose_name=_("Código de Ativação")
