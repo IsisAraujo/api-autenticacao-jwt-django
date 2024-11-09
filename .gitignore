@@ -9,3 +9,6 @@ env/
 tmp/
 
 db.sqlite3
+
+# Ruff
+.ruff_cache/

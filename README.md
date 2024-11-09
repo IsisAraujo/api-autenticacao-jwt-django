@@ -13,6 +13,7 @@ A API de Autenticação do Django é um sistema de autenticação robusto, const
     - [Endpoints da API](#endpoints-da-api)
     - [Autenticação](#autenticação)
   - [Contribuição](#contribuição)
+- [desenvolvimento local](#desenvolvimento-local)
 
 ## Introdução
 
@@ -149,4 +150,35 @@ Todos os endpoints da API estão acessíveis sob o prefixo `/api/contas/`. Os en
 - Envie para o branch: `git push origin feature-name`.
 - Envie um pull request.
 
----
+# desenvolvimento local
+quando criar seu banco local postergree mude para a porta 5433 para que nao haja conflito com a porta do docker
+
+
+
+**Explicação das alterações:**
+
+1. **Endpoints Públicos (AllowAny):**
+   - CadastrarUsuarioView
+   - LoginView
+   - AtivacaoContaView
+   - ResetSenhaView
+   - VerificarResetSenhaView
+   - SolicitarNovoCodigoAtivacaoView
+
+2. **Endpoints Protegidos (IsAuthenticated):**
+   - PerfilView
+   - AlterarPerfilView
+   - LogoutView
+   - AlterarEmailView
+   - VerificarAlteracaoEmailView
+   - AlterarSenhaView
+
+3. **Benefícios:**
+   - Maior segurança
+   - Controle de acesso explícito
+   - Código mais organizado e claro
+
+4. **Observações:**
+   - `AllowAny` permite acesso a qualquer usuário (autenticado ou não)
+   - `IsAuthenticated` requer um token válido ou sessão ativa
+   - Todas as views agora têm permissões explicitamente definidas
