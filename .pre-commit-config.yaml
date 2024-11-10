@@ -40,5 +40,6 @@ repos:
       - id: poetry-export
         name: Export requirements.txt
         language: system
-        entry: poetry export --format requirements.txt --output requirements.txt
+        entry: poetry export -f requirements.txt -o requirements.txt --without-hashes
+        pass_filenames: false
         files: ^pyproject\.toml$
