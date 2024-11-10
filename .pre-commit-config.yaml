@@ -33,3 +33,12 @@ repos:
     hooks:
       - id: djlint
         args: ["--indent", "2"]
+
+  # Exportação automática do requirements.txt
+  - repo: local
+    hooks:
+      - id: poetry-export
+        name: Export requirements.txt
+        language: system
+        entry: poetry export -f requirements.txt --output requirements.txt
+        files: ^pyproject\.toml$
