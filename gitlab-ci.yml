@@ -3,8 +3,16 @@ image: python:3.11-slim
 stages:
   - test
 
-test:
+test_job:
   stage: test
+  tags:  # Suas tags configuradas
+    - python
+    - django
+    - production
   script:
+    - echo "Testing pipeline execution"
     - python --version
-    - echo "Testing pipeline"
+    - pwd
+    - ls -la
+    - echo "CI_PROJECT_DIR: $CI_PROJECT_DIR"
+    - echo "Pipeline test completed successfully!"
