@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:12.2-alpine
+    environment:
+      - POSTGRES_DB=bd-dev
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
+    command: -p 5433
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -p 5433"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    environment:
+      - DATABASE_NAME=bd-dev
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=123456
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5433
+      - DJANGO_SETTINGS_MODULE=core.settings
+    depends_on:
+      db:
+        condition: service_healthy
