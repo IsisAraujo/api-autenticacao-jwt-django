@@ -16,13 +16,6 @@ services:
 
   api:
     build: .
-    environment:
-      - DATABASE_NAME=bd-dev
-      - DATABASE_USER=postgres
-      - DATABASE_PASSWORD=123456
-      - DATABASE_HOST=db
-      - DATABASE_PORT=5433
-      - DJANGO_SETTINGS_MODULE=core.settings
     depends_on:
       db:
         condition: service_healthy
