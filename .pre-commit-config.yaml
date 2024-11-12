@@ -22,10 +22,10 @@ repos:
     hooks:
       - id: ruff
         args: [
-          "--select=E,F,I,N,B,A,C,UP,W",  # Removido PL das regras
-          "--fix",
-          "--ignore=E501",  # Ignora linha muito longa (black cuida disso)
-        ]
+            "--select=E,F,I,N,B,A,C,UP,W", # Removido PL das regras
+            "--fix",
+            "--ignore=E501", # Ignora linha muito longa (black cuida disso)
+          ]
 
   # DjLint para lint e formatação em arquivos Django
   - repo: https://github.com/Riverside-Healthcare/djLint
