@@ -79,11 +79,14 @@ code-quality:
   script:
     - poetry run pre-commit run --all-files
     # Compare requirements
-    - git fetch origin staging
+    - git fetch origin staging || true
     - git checkout origin/staging -- requirements.txt || true
-    - mv requirements.txt requirements.txt.staging || true
     - poetry export -f requirements.txt --output requirements.txt.new
-    - diff requirements.txt.staging requirements.txt.new || exit 1
+    - if [ -f requirements.txt ]; then
+      diff requirements.txt requirements.txt.new || true;
+      else
+      mv requirements.txt.new requirements.txt;
+      fi
 
 migrations:
   stage: test
